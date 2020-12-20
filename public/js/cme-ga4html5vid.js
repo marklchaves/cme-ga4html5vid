@@ -1,10 +1,6 @@
 // Wrap in an IIFE to avoid polluting the global name space.
-(function () {
-  let dataLayerName = "dataLayer";
-  // Bail early if no data layer to push t
-  if (typeof window[dataLayerName] == 'undefined') return;
-
-  console.log('[HTML5 Video] cme-ga4html5vid loading ...');
+(function (document, window) {
+  console.log("[HTML5 Video] cme-ga4html5vid loading ...");
 
   let userID = 0;
   if (typeof cmeGa4Html5VidUserId !== "undefined") {
@@ -17,11 +13,14 @@
   var videos_status = {};
   // Handle player events.
   function eventHandler(e) {
+    let _ga = window.GoogleAnalyticsObject;
+
     switch (e.type) {
       // This event type is sent every time the player updated it's current time,
       // We're using for the % of the video played.
       case "timeupdate":
-        // Let's set the save the current player's video time in our status object
+        // Let's set the save the current player's video time in our 
+        // status object
         videos_status[e.target.id].current = Math.round(e.target.currentTime);
         // We just want to send the percent events once
         var pct = Math.floor(
@@ -32,7 +31,8 @@
             videos_status[e.target.id].greatest_marker = j;
           }
         }
-        // Current bucket hasn't been already sent to GA?, let's push it to GA.
+        // Current bucket hasn't been already sent to GA?. 
+        // Then, let's push it to GA.
         if (
           videos_status[e.target.id].greatest_marker &&
           !videos_status[e.target.id]._progress_markers[
@@ -42,6 +42,23 @@
           videos_status[e.target.id]._progress_markers[
             videos_status[e.target.id].greatest_marker
           ] = true;
+
+          window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
+          window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
+  
+          window[_ga](
+            "send",
+            "event",
+            "HTML5 Video",
+            videos_status[e.target.id].greatest_marker + "%",
+            decodeURIComponent(
+              e.target.currentSrc.split("/")[
+                e.target.currentSrc.split("/").length - 1
+              ]
+            )
+          );
+
+          /*
           window[dataLayerName].push({
             cmeUserID: cmeUserID,
             event: "video",
@@ -54,10 +71,26 @@
               ]
             ),
           });
+          */
         }
         break;
-      // This event is fired when user's click on the play button
       case "play":
+        window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
+        window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
+
+        window[_ga](
+          "send",
+          "event",
+          "HTML5 Video",
+          "Played video",
+          decodeURIComponent(
+            e.target.currentSrc.split("/")[
+              e.target.currentSrc.split("/").length - 1
+            ]
+          )
+        );
+
+        /*
         window[dataLayerName].push({
           cmeUserID: cmeUserID,
           event: "video",
@@ -69,9 +102,25 @@
             ]
           ),
         });
+        */
+
         break;
-      // This event is fired when viewer's click on the pause button
       case "pause":
+        window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
+        window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
+
+        window[_ga](
+          "send",
+          "event",
+          "HTML5 Video",
+          "Paused video",
+          decodeURIComponent(
+            e.target.currentSrc.split("/")[
+              e.target.currentSrc.split("/").length - 1
+            ]
+          )
+        );
+
         window[dataLayerName].push({
           cmeUserID: cmeUserID,
           event: "video",
@@ -87,6 +136,22 @@
         break;
       // If the viewer ends playing the video, an Finish video will be pushed ( This equals to % played = 100 )
       case "ended":
+        window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
+        window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
+
+        window[_ga](
+          "send",
+          "event",
+          "HTML5 Video",
+          "100%",
+          decodeURIComponent(
+            e.target.currentSrc.split("/")[
+              e.target.currentSrc.split("/").length - 1
+            ]
+          )
+        );
+
+        /*
         window[dataLayerName].push({
           cmeUserID: cmeUserID,
           event: "video",
@@ -98,6 +163,7 @@
             ]
           ),
         });
+        */
         break;
       default:
         break;
