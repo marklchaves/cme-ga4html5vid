@@ -11,7 +11,7 @@
  * Plugin Name:       cme Google Analytics for HTML5 Video Tracking
  * Plugin URI:        https://github.com/marklchaves/ashtabula
  * Description:       Google Analytics for HTML5 Video Tracking
- * Version:           0.0.2
+ * Version:           0.0.1
  * Author:            caught my eye
  * Author URI:        https://www.caughtmyeye.cc
  * License:           GPL-2.0+
