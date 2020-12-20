@@ -121,6 +121,7 @@
           )
         );
 
+        /*
         window[dataLayerName].push({
           cmeUserID: cmeUserID,
           event: "video",
@@ -133,6 +134,7 @@
           ),
           eventValue: videos_status[e.target.id].current,
         });
+        */
         break;
       // If the viewer ends playing the video, an Finish video will be pushed ( This equals to % played = 100 )
       case "ended":
