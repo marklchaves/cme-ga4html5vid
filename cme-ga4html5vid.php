@@ -4,14 +4,14 @@
  * caught my eye Google Analytics for HTML5 Video Tracking
  *
  * @link              https://github.com/marklchaves/cme-ga4html5vid
- * @since             0.0.1
+ * @since             0.1.0
  * @package           Cme_ga4html5vid
  *
  * @wordpress-plugin
  * Plugin Name:       cme Google Analytics for HTML5 Video Tracking
  * Plugin URI:        https://github.com/marklchaves/ashtabula
  * Description:       Google Analytics for HTML5 Video Tracking
- * Version:           0.0.1
+ * Version:           0.2.0
  * Author:            caught my eye
  * Author URI:        https://www.caughtmyeye.cc
  * License:           GPL-2.0+

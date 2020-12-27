@@ -1,10 +1,36 @@
 // Wrap in an IIFE to avoid polluting the global name space.
 (function (document, window) {
-  console.log("[HTML5 Video] cme-ga4html5vid loading ...");
+  console.log("[HTML5 Video] cme-ga4html5vid.js loading ...");
 
   let userID = 0;
   if (typeof cmeGa4Html5VidUserId !== "undefined") {
     userID = cmeGa4Html5VidUserId;
+  }
+
+  // Use the post or page slug as the label.
+  function getEventLabel(e) {
+    return decodeURIComponent(
+      e.target.currentSrc.split("/")[
+        e.target.currentSrc.split("/").length - 1
+      ]
+    );
+  }
+
+  // Send something to GA.
+  function sendToGA(args) {
+    // Only set user ID dimension if we have a valid ID.
+    if (cmeGa4Html5VidUserId > 0) {
+      window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
+      window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
+    }
+
+    window[_ga](
+      "send",
+      "event",
+      "HTML5 Video", // category
+      args.action, // action
+      getEventLabel(args.e) // label
+    );
   }
 
   // Percent buckets ( 25%-75% )
@@ -43,129 +69,34 @@
             videos_status[e.target.id].greatest_marker
           ] = true;
 
-          window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
-          window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
-  
-          window[_ga](
-            "send",
-            "event",
-            "HTML5 Video",
-            videos_status[e.target.id].greatest_marker + "%",
-            decodeURIComponent(
-              e.target.currentSrc.split("/")[
-                e.target.currentSrc.split("/").length - 1
-              ]
-            )
-          );
-
-          /*
-          window[dataLayerName].push({
-            cmeUserID: cmeUserID,
-            event: "video",
-            eventCategory: "HTML5 Video",
-            eventAction: videos_status[e.target.id].greatest_marker + "%",
-            // We are using sanitizing the current video src string, and getting just the video name part
-            eventLabel: decodeURIComponent(
-              e.target.currentSrc.split("/")[
-                e.target.currentSrc.split("/").length - 1
-              ]
-            ),
-          });
-          */
+          const args = {
+            'action': videos_status[e.target.id].greatest_marker + "%", 
+            'e': e
+          }
+          sendToGA(args);
         }
         break;
       case "play":
-        window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
-        window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
-
-        window[_ga](
-          "send",
-          "event",
-          "HTML5 Video",
-          "Played video",
-          decodeURIComponent(
-            e.target.currentSrc.split("/")[
-              e.target.currentSrc.split("/").length - 1
-            ]
-          )
-        );
-
-        /*
-        window[dataLayerName].push({
-          cmeUserID: cmeUserID,
-          event: "video",
-          eventCategory: "HTML5 Video",
-          eventAction: "Played video",
-          eventLabel: decodeURIComponent(
-            e.target.currentSrc.split("/")[
-              e.target.currentSrc.split("/").length - 1
-            ]
-          ),
-        });
-        */
-
+        const args = {
+          'action': 'Played video', 
+          'e': e
+        }
+        sendToGA(args);
         break;
       case "pause":
-        window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
-        window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
-
-        window[_ga](
-          "send",
-          "event",
-          "HTML5 Video",
-          "Paused video",
-          decodeURIComponent(
-            e.target.currentSrc.split("/")[
-              e.target.currentSrc.split("/").length - 1
-            ]
-          )
-        );
-
-        /*
-        window[dataLayerName].push({
-          cmeUserID: cmeUserID,
-          event: "video",
-          eventCategory: "HTML5 Video",
-          eventAction: "Paused video",
-          eventLabel: decodeURIComponent(
-            e.target.currentSrc.split("/")[
-              e.target.currentSrc.split("/").length - 1
-            ]
-          ),
-          eventValue: videos_status[e.target.id].current,
-        });
-        */
+        const args = {
+          'action': 'Paused video', 
+          'e': e
+        }
+        sendToGA(args);
         break;
       // If the viewer ends playing the video, an Finish video will be pushed ( This equals to % played = 100 )
       case "ended":
-        window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
-        window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
-
-        window[_ga](
-          "send",
-          "event",
-          "HTML5 Video",
-          "100%",
-          decodeURIComponent(
-            e.target.currentSrc.split("/")[
-              e.target.currentSrc.split("/").length - 1
-            ]
-          )
-        );
-
-        /*
-        window[dataLayerName].push({
-          cmeUserID: cmeUserID,
-          event: "video",
-          eventCategory: "HTML5 Video",
-          eventAction: "100%",
-          eventLabel: decodeURIComponent(
-            e.target.currentSrc.split("/")[
-              e.target.currentSrc.split("/").length - 1
-            ]
-          ),
-        });
-        */
+        const args = {
+          'action': '100%', 
+          'e': e
+        }
+        sendToGA(args);
         break;
       default:
         break;
