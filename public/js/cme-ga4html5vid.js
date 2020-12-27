@@ -2,10 +2,8 @@
 (function (document, window) {
   console.log("[HTML5 Video] cme-ga4html5vid.js loading ...");
 
-  let userID = 0;
-  if (typeof cmeGa4Html5VidUserId !== "undefined") {
-    userID = cmeGa4Html5VidUserId;
-  }
+  let userID = (typeof cmeGa4Html5VidUserId !== "undefined") ? cmeGa4Html5VidUserId : 0;
+  let userIdx = (typeof cmeGa4Html5VidUserIdCdIndex !== "undefined") ? cmeGa4Html5VidUserIdCdIndex : 0;
 
   // Use the post or page slug as the label.
   function getEventLabel(e) {
@@ -19,12 +17,12 @@
   // Send something to GA.
   function sendToGA(args) {
     // Only set user ID dimension if we have a valid ID.
-    if (cmeGa4Html5VidUserId > 0) {
-      window[_ga]('set', 'userId', cmeGa4Html5VidUserId);
-      window[_ga]('set', 'dimension' + cmeGa4Html5VidUserIdCdIndex, cmeGa4ytUserId);
+    if (userID > 0) {
+      window[args.ga]('set', 'userId', userID);
+      window[args.ga]('set', 'dimension' + userIdx, userID);
     }
 
-    window[_ga](
+    window[args.ga](
       "send",
       "event",
       "HTML5 Video", // category
@@ -40,6 +38,7 @@
   // Handle player events.
   function eventHandler(e) {
     let _ga = window.GoogleAnalyticsObject;
+    let args = {};
 
     switch (e.type) {
       // This event type is sent every time the player updated it's current time,
@@ -69,7 +68,8 @@
             videos_status[e.target.id].greatest_marker
           ] = true;
 
-          const args = {
+          args = {
+            'ga': _ga,
             'action': videos_status[e.target.id].greatest_marker + "%", 
             'e': e
           }
@@ -77,14 +77,16 @@
         }
         break;
       case "play":
-        const args = {
+        args = {
+          'ga': _ga,
           'action': 'Played video', 
           'e': e
         }
         sendToGA(args);
         break;
       case "pause":
-        const args = {
+        args = {
+          'ga': _ga,
           'action': 'Paused video', 
           'e': e
         }
@@ -92,7 +94,8 @@
         break;
       // If the viewer ends playing the video, an Finish video will be pushed ( This equals to % played = 100 )
       case "ended":
-        const args = {
+        args = {
+          'ga': _ga,
           'action': '100%', 
           'e': e
         }
