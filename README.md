@@ -10,7 +10,7 @@ Play around with the [live demo](https://streetphotography.blog/html5-video-plug
 
 ## Install
 
-1. Download the zip file from GitHub.
+1. Download the [latest release](https://github.com/marklchaves/cme-ga4html5vid/releases) (zip file) from GitHub.
 1. Log in to your WordPress site as an admin.
 1. Navigate to Plugins > Add New.
 1. Click Upload Plugin.
