@@ -69,35 +69,35 @@
           ] = true;
 
           args = {
-            'ga': _ga,
-            'action': videos_status[e.target.id].greatest_marker + "%", 
-            'e': e
+            ga: _ga,
+            action: videos_status[e.target.id].greatest_marker + "%", 
+            e: e
           }
           sendToGA(args);
         }
         break;
       case "play":
         args = {
-          'ga': _ga,
-          'action': 'Played video', 
-          'e': e
+          ga: _ga,
+          action: 'Played video', 
+          e: e
         }
         sendToGA(args);
         break;
       case "pause":
         args = {
-          'ga': _ga,
-          'action': 'Paused video', 
-          'e': e
+          ga: _ga,
+          action: 'Paused video', 
+          e: e
         }
         sendToGA(args);
         break;
       // If the viewer ends playing the video, an Finish video will be pushed ( This equals to % played = 100 )
       case "ended":
         args = {
-          'ga': _ga,
-          'action': '100%', 
-          'e': e
+          ga: _ga,
+          action: '100%', 
+          e: e
         }
         sendToGA(args);
         break;
