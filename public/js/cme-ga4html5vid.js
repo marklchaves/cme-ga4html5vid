@@ -22,13 +22,12 @@
       window[args.ga]('set', 'dimension' + userIdx, userID);
     }
 
-    window[args.ga](
-      "send",
-      "event",
-      "HTML5 Video", // category
-      args.action, // action
-      getEventLabel(args.e) // label
-    );
+    gtag("event", args.action, {
+      event_category: "HTML5 Video",
+      event_label: getEventLabel(args.e),
+      value: 1,
+    });
+
   }
 
   // Percent buckets ( 25%-75% )
