@@ -26,7 +26,10 @@ if ( ! defined( 'WPINC' ) ) {
 
 define( 'CME_GA4HTML5VID_PLUGIN_NAME', 'cme-ga4html5vid' );
 define( 'CME_GA4HTML5VID_PLUGIN_VERSION', '0.3.0' );
-define('USER_ID_CUSTOM_DIMENSION_INDEX', '0'); // Default to invalid CD index.
+/* Note the use of quotes, this is important. */
+if (!defined('USER_ID_CUSTOM_DIMENSION_INDEX')) {
+    define('USER_ID_CUSTOM_DIMENSION_INDEX', '0'); // Default to invalid CD index.
+}
 
 /**
  * Helper function.
