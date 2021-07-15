@@ -1,10 +1,12 @@
 # cme-ga4html5vid
 
-## A WordPress Plugin for HTML5 Video Tracking using Google Analytics
+## A WordPress Plugin for HTML5 Video Tracking using Google Analytics (UA)
 
-Supports logged-in user ID tracking.
+This plugin supports logged-in user ID tracking for Universal Analytics properties (not GA4).
  
 Play around with the [live demo](https://streetphotography.blog/html5-video-plugin/).
+
+A GA4 version may be in the _works_.
 
 ---
 
