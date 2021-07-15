@@ -6,7 +6,7 @@ This plugin supports logged-in user ID tracking for Universal Analytics properti
  
 Play around with the [live demo](https://streetphotography.blog/html5-video-plugin/).
 
-A GA4 version may be in the _works_.
+A GA4 version may be in _the works_.
 
 ---
 
