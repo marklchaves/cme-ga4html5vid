@@ -33,7 +33,7 @@
   // Percent buckets ( 25%-75% )
   var divisor = 25;
   // Object for saving video player status.
-  var videos_status = {};
+  var videos_status = []; //{}; ISSUE: This probably should be an array instead of an object? ~mlc 13 September 2021.
   // Handle player events.
   function eventHandler(e) {
     let _ga = window.GoogleAnalyticsObject;
@@ -43,6 +43,7 @@
       // This event type is sent every time the player updated it's current time,
       // We're using for the % of the video played.
       case "timeupdate":
+        if (!videos_status[e.target.id]) return; // Edge case for videos in popups. ~mlc 13 September 2021
         // Let's set the save the current player's video time in our 
         // status object
         videos_status[e.target.id].current = Math.round(e.target.currentTime);
@@ -107,6 +108,8 @@
   // We need to configure the listeners
   // Let's grab all the the "video" objects on the current page
   var videos = document.getElementsByTagName("video");
+
+  // TO DO: Convert to foreach ~mlc 13 September 2021
   for (var i = 0; i < videos.length; i++) {
     // In order to have some id to reference in our status object, we are adding an id to the video objects
     // that don't have an id attribute.
@@ -125,6 +128,8 @@
     videos_status[videoTagId].greatest_marker = 0;
     // Let's set the progress markers, so we can know afterwards which ones have been already sent.
     videos_status[videoTagId]._progress_markers = {};
+
+    // TO DO: Convert to foreach ~mlc 13 September 2021
     for (j = 0; j < 100; j++) {
       videos_status[videoTagId].progress_point =
         divisor * Math.floor(j / divisor);
